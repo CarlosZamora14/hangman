@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Hangman</title>
   <style>
-    pre {
+    body {
       font-family: 'Segoe UI', sans-serif;
     }
   </style>
@@ -19,32 +19,35 @@
 
 <?php
 
-$i = 5;
+session_start();
 
-function test($arg) {
-  echo $arg;
+if (!isset($_SESSION['word'])) {
+  $words = file('words.txt');
+  $word = $words[array_rand($words)];
+  $word = strtoupper(rtrim($word));
+  $_SESSION['word'] = $word;
+  $_SESSION['guesses'] = [];
+  $_SESSION['lives'] = 6;
+
+  if (!isset($_SESSION['games_won'])) {
+    $_SESSION['games_won'] = 0;
+  }
+  if (!isset($_SESSION['games_lost'])) {
+    $_SESSION['games_lost'] = 0;
+  }
 }
 
-// test($i);
-
-// $words = ["apple", "pear", "banana", "computer"];
-$words = file('words.txt');
-
-$test_array = array_rand($words, 10);
-
-echo '<pre>';
-for ($i = 0; $i < count($test_array); $i++) {
-  echo $words[$test_array[$i]];
-  // echo $test_array[$i] . PHP_EOL;
-}
-echo '</pre>';
-
-$word = rtrim($words[array_rand($words)]);
-
+$word = $_SESSION['word'];
 $word_length = strlen($word);
-echo "$word $word_length ";
+$guesses = $_SESSION['guesses'];
 
 for ($i = 0; $i < $word_length; $i++) {
-  echo "_ ";
+  if (in_array($word[$i], $guesses)) {
+    echo $word[$i];
+  } else {
+    echo '_';
+  }
+
+  echo ' ';
 }
 ?>
