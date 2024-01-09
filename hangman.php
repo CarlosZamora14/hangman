@@ -35,8 +35,13 @@ $guesses = $_SESSION['guesses'];
 $remaining_letters = array_diff(range('A', 'Z'), $guesses);
 
 if ($_SESSION['lives'] <= 0) {
-  echo 'You have lost' . '<br>';
-  echo 'The word was ' . $word . '<br>';
+?>
+  <div class="fs-3 fw-bold alert alert-danger text-center my-5" role="alert">
+    <p>You have lost</p>
+    <p>The word was <?php echo $word; ?></p>
+    <a href="./hangman.php" class="btn btn-warning" role="button">Play again</a>
+  </div>
+<?php
   $_SESSION['games_lost'] += 1;
   unset($_SESSION['word']);
 } else {
@@ -59,38 +64,78 @@ if ($_SESSION['lives'] <= 0) {
   <?php
 
   if ($letters_left_to_guess === 0) {
-    echo 'You won!' . '<br>';
+
+  ?>
+    <div class="fs-3 fw-bold alert alert-warning text-center mb-5" role="alert">
+      <p>You won!</p>
+      <a href="./hangman.php" class="btn btn-danger" role="button">Play again</a>
+    </div>
+<?php
     $_SESSION['games_won'] += 1;
     unset($_SESSION['word']);
   }
 }
+?>
 
-if ($_SESSION['lives'] > 0 && $letters_left_to_guess > 0) {
-  ?>
-  <section class="container">
-    <form method="POST" class="row g-3 mb-3">
-      <div class="col">
-        <select class="form-select" name="guess" id="guess-select" aria-label="Choose a letter">
-          <?php
-          foreach ($remaining_letters as $letter) {
-            echo '<option value="' . $letter . '">' . $letter . '</option>';
-          }
-          ?>
-        </select>
+<section class="container">
+  <div class="row">
+    <div class="col-md-6">
+
+      <?php
+      if ($_SESSION['lives'] > 0 && $letters_left_to_guess > 0) {
+      ?>
+        <div class="col">
+          <form method="POST" class="row g-3 mb-3">
+            <div class="col">
+              <select class="form-select" name="guess" id="guess-select" aria-label="Choose a letter">
+                <?php
+                foreach ($remaining_letters as $letter) {
+                  echo '<option value="' . $letter . '">' . $letter . '</option>';
+                }
+                ?>
+              </select>
+            </div>
+
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary">Guess</button>
+            </div>
+          </form>
+        </div>
+      <?php
+      }
+      ?>
+      <div class="col mb-3">
+        Canvas
       </div>
-
-      <div class="col-auto">
-        <button type="submit" class="btn btn-primary">Guess</button>
-      </div>
-    </form>
-
-    <div class="row">
-      <div class="col-md-6"></div>
-      <div class="col-md-6"></div>
     </div>
+    <div class="col-md-6">
+      <ul class="list-group">
+        <li class="list-group-item bg-primary">
+          Scoreboard
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Games won
+          <span class="badge bg-primary rounded-pill">
+            <?php echo $_SESSION['games_won']; ?>
+          </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Games lost
+          <span class="badge bg-primary rounded-pill">
+            <?php echo $_SESSION['games_lost']; ?>
+          </span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Total games played
+          <span class="badge bg-primary rounded-pill">
+            <?php echo $_SESSION['games_won'] + $_SESSION['games_lost']; ?>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-  </section>
+</section>
 <?php
-}
 
 include "./footer.php";
