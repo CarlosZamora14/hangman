@@ -25,24 +25,36 @@
 
       array_push($_SESSION['guesses'], $_POST['guess']);
     } else {
-      echo 'You have already guessed the letter ' . $_POST['guess'];
+      echo 'You have already guessed the letter ' . $_POST['guess'] . '<br>';
     }
   }
 
   $word = $_SESSION['word'];
-  $word_length = strlen($word);
   $guesses = $_SESSION['guesses'];
-
   $remaining_letters = array_diff(range('A', 'Z'), $guesses);
 
-  for ($i = 0; $i < $word_length; $i++) {
-    if (in_array($word[$i], $guesses)) {
-      echo $word[$i];
-    } else {
-      echo '_';
+  if ($_SESSION['lives'] <= 0) {
+    echo 'You have lost' . '<br>';
+    echo 'The word was ' . $word . '<br>';
+    $_SESSION['games_lost'] += 1;
+    unset($_SESSION['word']);
+  } else {
+    $current_state_of_play = '';
+    $word_length = strlen($word);
+
+    for ($i = 0; $i < $word_length; $i++) {
+      $current_state_of_play .= in_array($word[$i], $guesses) ? $word[$i] : '_';
+      $current_state_of_play .= ' ';
     }
 
-    echo ' ';
+    $letters_left_to_guess = substr_count($current_state_of_play, '_');
+    echo $current_state_of_play . '<br>';
+
+    if ($letters_left_to_guess === 0) {
+      echo 'You won!' . '<br>';
+      $_SESSION['games_won'] += 1;
+      unset($_SESSION['word']);
+    }
   }
 ?>
 
@@ -64,16 +76,22 @@
 </head>
 
 <body>
-  <form method="POST">
-    <select name="guess">
-      <?php
-        foreach ($remaining_letters as $letter) {
-          echo '<option value="' . $letter . '">' . $letter . '</option>';
-        }
-      ?>
-    </select>
-    <button type="submit" name="submit">Guess</button>
-  </form>
+  <?php
+    if ($_SESSION['lives'] > 0 && $letters_left_to_guess > 0) {
+  ?>
+      <form method="POST">
+        <select name="guess">
+          <?php
+            foreach ($remaining_letters as $letter) {
+              echo '<option value="' . $letter . '">' . $letter . '</option>';
+            }
+          ?>
+        </select>
+        <button type="submit" name="submit">Guess</button>
+      </form>
+  <?php
+    }
+  ?>
 </body>
 
 </html>
