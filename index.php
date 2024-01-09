@@ -1,6 +1,4 @@
 <?php
-  session_start();
-
   if (!isset($_SESSION['word'])) {
     $words = file('words.txt');
     $word = $words[array_rand($words)];
