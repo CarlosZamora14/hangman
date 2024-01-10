@@ -39,7 +39,10 @@ if ($_SESSION['lives'] <= 0) {
         <canvas width="350" height="300" id="canvas"></canvas>
       </div>
     </div>
-    <?php include './scoreboard.php'; ?>
+    <?php
+      list($rating, $color) = calculate_rating();
+      include './scoreboard.php';
+    ?>
   </div>
 
 </section>

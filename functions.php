@@ -68,3 +68,26 @@ function reset_scoreboard() {
     $_SESSION['incorrect_guesses'] = 0;
   }
 }
+
+function calculate_rating() {
+  $total_guesses = ($_SESSION['incorrect_guesses'] + $_SESSION['correct_guesses']);
+  $grade = [
+    [0.8, 'A', 'success'],
+    [0.6, 'B', 'info'],
+    [0.4, 'C', 'warning'],
+    [0.2, 'D', 'danger'],
+    [0.0, 'E', 'danger'],
+  ];
+
+  if ($total_guesses === 0) {
+    return ['N/A', 'light'];
+  }
+
+  $percentage = $_SESSION['correct_guesses'] / $total_guesses;
+
+  for ($i = 0; $i < count($grade); $i++) {
+    if ($percentage >= $grade[$i][0]) {
+      return [$grade[$i][1], $grade[$i][2]];
+    }
+  }
+}

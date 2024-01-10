@@ -1,9 +1,3 @@
-<li class="list-group-item d-flex align-items-center">
-  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#reset-modal">
-    Reset scoreboard
-  </button>
-</li>
-
 <div class="modal fade" id="reset-modal" tabindex="-1" aria-labelledby="reset-modal-Label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
