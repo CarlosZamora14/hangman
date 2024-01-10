@@ -4,6 +4,16 @@
       Scoreboard
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">
+      Correct guesses
+      <span class="badge bg-primary rounded-pill">
+        <?php echo $_SESSION['correct_guesses']; ?>
+      </span>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      Incorrect guesses
+      <span class="badge bg-primary rounded-pill">
+        <?php echo $_SESSION['incorrect_guesses']; ?>
+      </span>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       Games won
       <span class="badge bg-primary rounded-pill">
         <?php echo $_SESSION['games_won']; ?>
@@ -21,5 +31,6 @@
         <?php echo $_SESSION['games_won'] + $_SESSION['games_lost']; ?>
       </span>
     </li>
+    <?php include './reset_modal.php'; ?>
   </ul>
 </div>

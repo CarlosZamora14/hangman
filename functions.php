@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 function setup_game() {
   if (!isset($_SESSION['word'])) {
     $words = file('words.txt');
@@ -15,6 +17,12 @@ function setup_game() {
     if (!isset($_SESSION['games_lost'])) {
       $_SESSION['games_lost'] = 0;
     }
+    if (!isset($_SESSION['correct_guesses'])) {
+      $_SESSION['correct_guesses'] = 0;
+    }
+    if (!isset($_SESSION['incorrect_guesses'])) {
+      $_SESSION['incorrect_guesses'] = 0;
+    }
   }
 }
 
@@ -23,11 +31,14 @@ function handle_guess() {
     if (!in_array($_POST['guess'], $_SESSION['guesses'])) {
       if (stripos($_SESSION['word'], $_POST['guess']) === false) {
         $_SESSION['lives'] -= 1;
+        $_SESSION['incorrect_guesses'] += 1;
+      } else {
+        $_SESSION['correct_guesses'] += 1;
       }
 
       array_push($_SESSION['guesses'], $_POST['guess']);
     } else {
-      include './repeated_letter.php';
+      alert('You have already guessed the letter ' . $_POST['guess']);
     }
   }
 }
@@ -43,4 +54,17 @@ function current_state_of_play() {
 
   include './state_of_play.php';
   return substr_count($current_state_of_play, '_');
+}
+
+function alert($message) {
+  include './alert.php';
+}
+
+function reset_scoreboard() {
+  if (isset($_POST['reset'])) {
+    $_SESSION['games_won'] = 0;
+    $_SESSION['games_lost'] = 0;
+    $_SESSION['correct_guesses'] = 0;
+    $_SESSION['incorrect_guesses'] = 0;
+  }
 }

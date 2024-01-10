@@ -21,7 +21,7 @@ function gallows(ctx) {
   ctx.lineTo(250, 75);
   ctx.moveTo(100, 100);
   ctx.lineTo(150, 50);
-  ctx.moveTO(50, 250);
+  ctx.moveTo(50, 250);
   ctx.lineTo(300, 250);
 }
 
@@ -56,7 +56,7 @@ function rightLeg(ctx) {
 }
 
 function stroke(ctx) {
-  ctx.strokeStyle = 'black';
+  ctx.strokeStyle = '#FFFFFF';
   ctx.lineWidth = 3;
   ctx.stroke();
 }

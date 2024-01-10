@@ -1,9 +1,10 @@
 <?php
 
-include './header.php';
 include './functions.php';
+include './header.php';
 
 setup_game();
+reset_scoreboard();
 handle_guess();
 
 $remaining_letters = array_diff(range('A', 'Z'), $_SESSION['guesses']);
