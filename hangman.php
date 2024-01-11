@@ -4,10 +4,13 @@ include './functions.php';
 include './header.php';
 
 setup_game();
-reset_scoreboard();
 handle_guess();
 
 $remaining_letters = array_diff(range('A', 'Z'), $_SESSION['guesses']);
+$letter_map = array_fill_keys(range('A', 'Z'), false);
+foreach ($remaining_letters as $letter) {
+  $letter_map[$letter] = true;
+}
 
 if ($_SESSION['lives'] <= 0) {
   include './you_lost_message.php';
@@ -27,21 +30,20 @@ if ($_SESSION['lives'] <= 0) {
 ?>
 
 <section class="container">
-  <div class="row">
-    <div class="col-md-6">
-
-      <?php
-      if ($_SESSION['lives'] > 0 && $letters_left_to_guess > 0) {
-        include './form.php';
-      }
-      ?>
-      <div class="col mb-3 text-center">
-        <canvas width="350" height="300" id="canvas"></canvas>
-      </div>
+  <div class="row mx-0">
+    <?php
+    if ($_SESSION['lives'] > 0 && $letters_left_to_guess > 0) {
+      include './form.php';
+    }
+    ?>
+  </div>
+  <div class="row g-5 mb-5 mx-0">
+    <div class="col-md-6 text-center">
+      <canvas width="350" height="300" id="canvas"></canvas>
     </div>
     <?php
-      list($rating, $color) = calculate_rating();
-      include './scoreboard.php';
+    list($rating, $color) = calculate_rating();
+    include './scoreboard.php';
     ?>
   </div>
 

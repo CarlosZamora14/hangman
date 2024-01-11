@@ -1,17 +1,12 @@
-<div class="col">
-  <form method="POST" class="row g-3 mb-3">
-    <div class="col">
-      <select class="form-select" name="guess" id="guess-select" aria-label="Choose a letter">
-        <?php
-        foreach ($remaining_letters as $letter) {
-          echo '<option value="' . $letter . '">' . $letter . '</option>';
-        }
-        ?>
-      </select>
-    </div>
-
-    <div class="col-auto">
-      <button type="submit" class="btn btn-primary">Guess</button>
-    </div>
-  </form>
+<div class="col-md-8 col-lg-6 letter-buttons">
+  <?php
+  foreach ($letter_map as $letter => $value) {
+  ?>
+    <button type="button" class="btn btn-<?php echo $value ? "primary" : "dark"; ?>
+      letter-button" <?php echo $value ? "" : "disabled"; ?> id="<?php echo $letter; ?>">
+      <?php echo $letter ?>
+    </button>
+  <?php
+  }
+  ?>
 </div>

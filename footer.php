@@ -2,9 +2,25 @@
   <script src="./js/canvas.js"></script>
   <script>
     const tooltipList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltipList.forEach(elem =>  new bootstrap.Tooltip(elem));
+    tooltipList.forEach(elem => new bootstrap.Tooltip(elem));
 
     hangman(<?php echo $_SESSION['lives']; ?>);
+
+    const buttons = document.querySelectorAll('.letter-button');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const id = this.getAttribute('id');
+        const formData = new FormData();
+        formData.append('guess', id);
+
+        fetch('/functions.php', {
+          method: 'POST',
+          body: formData,
+        }).then(() => {
+          window.location.reload();
+        });
+      });
+    });
   </script>
 </body>
 

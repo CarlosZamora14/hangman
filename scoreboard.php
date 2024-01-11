@@ -31,7 +31,7 @@
         <?php echo $_SESSION['games_won'] + $_SESSION['games_lost']; ?>
       </span>
     </li>
-    <li class="list-group-item d-flex align-items-center justify-content-between">
+    <li class="list-group-item d-flex flex-column justify-content-between align-items-md-center flex-md-row">
       <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#reset-modal">
         Reset scoreboard
       </button>

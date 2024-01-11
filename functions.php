@@ -2,6 +2,14 @@
 
 session_start();
 
+if (isset($_POST['guess'])) {
+  handle_guess();
+}
+
+if (isset($_POST['reset'])) {
+  reset_scoreboard();
+}
+
 function setup_game() {
   if (!isset($_SESSION['word'])) {
     $words = file('words.txt');
@@ -61,12 +69,11 @@ function alert($message) {
 }
 
 function reset_scoreboard() {
-  if (isset($_POST['reset'])) {
-    $_SESSION['games_won'] = 0;
-    $_SESSION['games_lost'] = 0;
-    $_SESSION['correct_guesses'] = 0;
-    $_SESSION['incorrect_guesses'] = 0;
-  }
+  $_SESSION['games_won'] = 0;
+  $_SESSION['games_lost'] = 0;
+  $_SESSION['correct_guesses'] = 0;
+  $_SESSION['incorrect_guesses'] = 0;
+  header('Location: hangman.php');
 }
 
 function calculate_rating() {
